@@ -1,7 +1,6 @@
 .Root {
     max-width: 1280px;
     margin: auto;
-    padding-top: 20px;
 }
 
 .Button {
@@ -13,10 +12,12 @@
     display: flex;
     justify-content: space-around;
     align-items: stretch;
+    padding: 0 20px;
 }
 
 .Section {
-    min-width: 25%;
+    min-width: 500px;
+    margin-top: 30px;
 
     .Label {
         text-align: center;
@@ -26,20 +27,30 @@
 
     .ValueWrapper {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
 
         .Value {
-            min-width: 100px;
+            min-width: 170px;
             text-align: center;
-            font-size: 5.00rem;
+            font-size: 4.75rem;
             font-family: monospace;
         }
 
         .Button {
-            font-size: 2.00rem;
-            min-width: 50px;
+            font-size: 2.25rem;
+            min-width: 60px;
         }
+    }
+}
+
+@media(max-width: 1279px) {
+    .Wrapper {
+        flex-direction: column;
+    }
+
+    .Section {
+        min-width: 0;
     }
 }
 
