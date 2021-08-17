@@ -6,44 +6,7 @@
 
 .Button {
     font-size: 1.50rem;
-}
-
-.ControlsContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .ControlsWrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-    }
-}
-
-.Controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-
-    .ControlSection {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        margin-bottom: 40px;
-
-        &+.ControlSection {
-            margin-left: 40px;
-        }
-
-        > * + * {
-            margin-top: 20px;
-        }
-
-        .Label {
-            font-size: 1.75rem;
-            text-align: center;
-        }
-    }
+    white-space: nowrap;
 }
 
 .Wrapper {
@@ -74,8 +37,61 @@
         }
 
         .Button {
-            font-size: 1.5rem;
-            min-width: 40px;
+            font-size: 2.00rem;
+            min-width: 50px;
         }
     }
+}
+
+.BottomContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ControlsWrapper {
+    min-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .Controls {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 40px;
+
+        .Label {
+            font-size: 1.75rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .ControlSection {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            margin: 0 -10px;
+
+            button:nth-child(1) {
+                flex: 20%;
+            }
+
+            button:nth-child(2) {
+                flex: 60%;
+            }
+
+            button:nth-child(3) {
+                flex: 20%;
+            }
+
+            button {
+                margin: 0 10px;
+            }
+        }
+    }
+}
+
+.FinalButton {
+    margin-top: 50px;
 }

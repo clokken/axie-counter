@@ -22,66 +22,6 @@ const CounterPage: React.FC = () => {
         resetGame();
     }, []);
 
-    const mainControls = (
-        <div className={styles.Controls}>
-            <div className={styles.ControlSection}>
-                <div className={styles.Label}>
-                    Use Cards
-                </div>
-
-                <button className={styles.Button} onClick={() => {
-                    setCards(cards - 1);
-                }}>
-                    Cost: 0
-                </button>
-
-                <button className={styles.Button} onClick={() => {
-                    setEnergy(energy - 1);
-                    setCards(cards - 1);
-                }}>
-                    Cost: 1
-                </button>
-
-                <button className={styles.Button} onClick={() => {
-                    setEnergy(energy - 2);
-                    setCards(cards - 1);
-                }}>
-                    Cost: 2
-                </button>
-            </div>
-
-            <div className={styles.ControlSection}>
-                <div className={styles.Label}>
-                    Card Effects
-                </div>
-
-                <button className={styles.Button} onClick={() => {
-                    setEnergy(energy + 1);
-                }}>
-                    Gained Energy
-                </button>
-
-                <button className={styles.Button} onClick={() => {
-                    setEnergy(energy - 1);
-                }}>
-                    Lost Energy
-                </button>
-
-                <button className={styles.Button} onClick={() => {
-                    setCards(cards + 1);
-                }}>
-                    Gained Card
-                </button>
-
-                <button className={styles.Button} onClick={() => {
-                    setCards(cards - 1);
-                }}>
-                    Lost Card
-                </button>
-            </div>
-        </div>
-    );
-
     return (
         <div className={styles.Root}>
             <div className={styles.Wrapper}>
@@ -112,18 +52,46 @@ const CounterPage: React.FC = () => {
                 </div>
             </div>
 
-            <div className={styles.ControlsContent}>
+            <div className={styles.BottomContent}>
                 <div className={styles.ControlsWrapper}>
-                    {mainControls}
+                    <div className={styles.Controls}>
+                        <div className={styles.Label}>
+                            Use Cards
+                        </div>
 
-                    <button className={styles.Button} onClick={nextTurn}>
+                        <div className={styles.ControlSection}>
+                            <button className={styles.Button} onClick={() => {
+                                setCards(cards - 1);
+                            }}>
+                                Cost: 0
+                            </button>
+
+                            <button className={styles.Button} onClick={() => {
+                                setEnergy(energy - 1);
+                                setCards(cards - 1);
+                            }}>
+                                Cost: 1
+                            </button>
+
+                            <button className={styles.Button} onClick={() => {
+                                setEnergy(energy - 2);
+                                setCards(cards - 1);
+                            }}>
+                                Cost: 2
+                            </button>
+                        </div>
+                    </div>
+
+                    <button
+                        className={styles.Button + ' ' + styles.FinalButton}
+                        onClick={nextTurn}
+                    >
                         Next Turn
                     </button>
 
                     <button
-                        className={styles.Button}
+                        className={styles.Button + ' ' + styles.FinalButton}
                         onClick={resetGame}
-                        style={{ marginTop: 40 }}
                     >
                         Reset Game
                     </button>
