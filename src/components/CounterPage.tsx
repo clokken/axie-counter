@@ -1,38 +1,77 @@
 import React from 'react';
 import styles from './CounterPage.module.scss';
 
+type State = {
+    turn: number;
+    energy: number;
+    cards: number;
+};
+
 const ENERGY_START = 3;
 const CARDS_START = 6;
 
+const ENERGY_PER_TURN = 2;
+const CARDS_PER_TURN = 3;
+
 const CounterPage: React.FC = () => {
-    const [energy, setEnergy] = React.useState(0);
-    const [cards, setCards] = React.useState(0);
+    const [history, setHistory] = React.useState<State[]>([{
+        turn: 1,
+        energy: ENERGY_START,
+        cards: CARDS_START,
+    }]);
+
+    const lastState = history[history.length - 1];
+
+    const deriveHistory = React.useCallback((next: Partial<State>) => {
+        setHistory([...history, {
+            energy: lastState.energy + (next.energy ?? 0),
+            cards: lastState.cards + (next.cards ?? 0),
+            turn: lastState.turn + (next.turn ?? 0),
+        }]);
+    }, [history, lastState]);
+
+    const undoLastHistory = React.useCallback(() => {
+        if (history.length > 1)
+            setHistory(history.slice(0, history.length - 2));
+    }, [history]);
 
     const resetGame = React.useCallback(() => {
-        setEnergy(ENERGY_START);
-        setCards(CARDS_START);
+        setHistory([{
+            turn: 1,
+            energy: ENERGY_START,
+            cards: CARDS_START,
+        }]);
     }, []);
 
     const nextTurn = React.useCallback(() => {
-        setEnergy(energy + 2);
-        setCards(cards + 3);
-    }, [energy, cards]);
+        deriveHistory({
+            turn: 1,
+            energy: ENERGY_PER_TURN,
+            cards: CARDS_PER_TURN,
+        });
+    }, [deriveHistory]);
 
     React.useEffect(() => {
         resetGame();
-    }, []);
+    }, [resetGame]);
 
     return (
         <div className={styles.Root}>
+            <div className={styles.NavBar}>
+                <div className={styles.Round}>
+                    Round {lastState.turn}
+                </div>
+            </div>
+
             <div className={styles.Wrapper}>
                 <div className={styles.Section}>
                     <div className={styles.Label}>Energy</div>
                     <div className={styles.ValueWrapper}>
-                        <button className={styles.Button} onClick={() => setEnergy(energy - 1)}>
+                        <button className={styles.Button} onClick={() => deriveHistory({ energy: -1 })}>
                             -
                         </button>
-                        <div className={styles.Value}>{energy}</div>
-                        <button className={styles.Button} onClick={() => setEnergy(energy + 1)}>
+                        <div className={styles.Value}>{lastState.energy}</div>
+                        <button className={styles.Button} onClick={() => deriveHistory({ energy: 1 })}>
                             +
                         </button>
                     </div>
@@ -41,11 +80,11 @@ const CounterPage: React.FC = () => {
                 <div className={styles.Section}>
                     <div className={styles.Label}>Cards</div>
                     <div className={styles.ValueWrapper}>
-                        <button className={styles.Button} onClick={() => setCards(cards - 1)}>
+                        <button className={styles.Button} onClick={() => deriveHistory({ cards: - 1 })}>
                             -
                         </button>
-                        <div className={styles.Value}>{cards}</div>
-                        <button className={styles.Button} onClick={() => setCards(cards + 1)}>
+                        <div className={styles.Value}>{lastState.cards}</div>
+                        <button className={styles.Button} onClick={() => deriveHistory({ cards: 1 })}>
                             +
                         </button>
                     </div>
@@ -61,21 +100,25 @@ const CounterPage: React.FC = () => {
 
                         <div className={styles.ControlSection + ' ' + styles.ScreenLarge}>
                             <button className={styles.Button} onClick={() => {
-                                setCards(cards - 1);
+                                deriveHistory({ cards: -1 });
                             }}>
                                 Cost: 0
                             </button>
 
                             <button className={styles.Button} onClick={() => {
-                                setEnergy(energy - 1);
-                                setCards(cards - 1);
+                                deriveHistory({
+                                    energy: -1,
+                                    cards: -1,
+                                });
                             }}>
                                 Cost: 1
                             </button>
 
                             <button className={styles.Button} onClick={() => {
-                                setEnergy(energy - 2);
-                                setCards(cards - 1);
+                                deriveHistory({
+                                    energy: -2,
+                                    cards: -1,
+                                });
                             }}>
                                 Cost: 2
                             </button>
@@ -83,22 +126,28 @@ const CounterPage: React.FC = () => {
 
                         <div className={styles.CompactControlSection + ' ' + styles.ScreenSmall}>
                             <button className={styles.Button} onClick={() => {
-                                setEnergy(energy - 1);
-                                setCards(cards - 1);
+                                deriveHistory({
+                                    energy: -1,
+                                    cards: -1,
+                                });
                             }}>
                                 Cost: 1
                             </button>
 
                             <div className={styles.CompactRight}>
                                 <button className={styles.Button} onClick={() => {
-                                    setCards(cards - 1);
+                                    deriveHistory({
+                                        cards: -1,
+                                    });
                                 }}>
                                     Cost: 0
                                 </button>
 
                                 <button className={styles.Button} onClick={() => {
-                                    setEnergy(energy - 2);
-                                    setCards(cards - 1);
+                                    deriveHistory({
+                                        energy: -2,
+                                        cards: -1,
+                                    });
                                 }}>
                                     Cost: 2
                                 </button>

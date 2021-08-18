@@ -9,6 +9,17 @@
     padding: 10px 10px;
 }
 
+.NavBar {
+    display: flex;
+    justify-content: center;
+    padding: 4px 2px;
+
+    .Round {
+        font-size: 0.95rem;
+        font-weight: bold;
+    }
+}
+
 @media(max-width: 1279px) {
     .ScreenLarge {
         display: none !important;
