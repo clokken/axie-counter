@@ -30,10 +30,10 @@ const CounterPage: React.FC = () => {
         }]);
     }, [history, lastState]);
 
-    const undoLastHistory = React.useCallback(() => {
+    /*const undoLastHistory = React.useCallback(() => {
         if (history.length > 1)
             setHistory(history.slice(0, history.length - 2));
-    }, [history]);
+    }, [history]);*/
 
     const resetGame = React.useCallback(() => {
         setHistory([{
